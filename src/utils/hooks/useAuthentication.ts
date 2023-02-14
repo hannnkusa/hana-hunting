@@ -5,8 +5,10 @@ const auth = getAuth();
 
 export function useAuthentication() {
   const [user, setUser] = React.useState<User>();
+  const [isLoading, setIsLoading] = React.useState(false)
 
   React.useEffect(() => {
+    setIsLoading(true)
     const unsubscribeFromAuthStatuChanged = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
@@ -16,12 +18,14 @@ export function useAuthentication() {
         // User is signed out
         setUser(undefined);
       }
+      setIsLoading(false)
     });
 
     return unsubscribeFromAuthStatuChanged;
   }, []);
 
   return {
-    user
+    user,
+    isLoading
   };
 }

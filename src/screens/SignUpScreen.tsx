@@ -39,7 +39,7 @@ const SignUpScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
     }
 
     function redirectToLoadingScreen() {
-        navigation.navigate('Loading Screen')
+        // navigation.navigate('Loading Screen')
     }
 
     const toggleOverlay = () => {

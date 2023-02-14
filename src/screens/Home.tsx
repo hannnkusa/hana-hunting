@@ -2,31 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import { HomeHeader, HomeList, HomeChip } from '@components/index'
-import { doc, onSnapshot } from "firebase/firestore";
 import { db } from '../config/firebase'
 import { collection, getDocs } from "firebase/firestore";
 
 export default function HomeScreen({ navigation }) {
     const [cafes, setCafes] = useState([]);
-    const cafesRef = collection(db, "cafes");
+    const [cafesFiltered, setCafesFiltered] = useState([])
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const selectable = ['Ambience', 'Value of Money', 'Service', 'Taste']
 
     async function loadData() {
-        const querySnapshot = await getDocs(collection(db, "cafes"));
         const cafes = []
+        setIsLoading(true)
+        const querySnapshot = await getDocs(collection(db, "cafes"));
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
             cafes.push({
-                id: doc.id,
-                data: doc.data()
+                ...doc.data(),
+                id: doc.id
             });
         });
         setCafes(cafes);
-
+        setIsLoading(false)
     }
 
     useEffect(() => {
         loadData()
     }, []);
+
+    useEffect(() => {
+        setIsLoading(true)
+        const newCafes = cafes.sort((a, b) => {
+            const selector = selectedIndex === 1 ? 'value' : selectable[selectedIndex].toLowerCase()
+            return a[selector] - b[selector]
+        })
+        setCafesFiltered(newCafes)
+        setIsLoading(false)
+    }, [selectedIndex])
 
     return (
         <View style={styles.container}>
@@ -35,20 +48,8 @@ export default function HomeScreen({ navigation }) {
                 <Text style={[styles.title, { color: '#6E929D' }]}>Explore</Text>
                 <Text style={[styles.title, { color: '#004359' }]}>New Places!</Text>
             </View>
-            <HomeChip />
-            <HomeList data={cafes} />
-            {/* <FlatList
-                style={{}}
-                data={cafes}
-                numColumns={1}
-                renderItem={({ item }) => (
-                    <View>
-                        <Text>{item.data.nama_cafe}</Text>
-                    </View>
-                )}
-            /> */}
-            {/* <Text>Welcome {user?.email}!</Text> */}
-            {/* <Button title="Sign Out" onPress={() => coba()} /> */}
+            <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} />
+            <HomeList data={!!selectedIndex ? cafesFiltered : cafes} navigation={navigation} isLoading={isLoading} />
         </View>
     );
 }

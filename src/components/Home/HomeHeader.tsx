@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useAuthentication } from '../../utils/hooks/useAuthentication';
 import { Button } from 'react-native-elements';
-import { getAuth, signOut } from 'firebase/auth';
 import { Dropdown } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-
-const auth = getAuth();
 const data = [
     { label: 'Dago', value: 'dago' },
     { label: 'Riau', value: 'riau' },
 ];
 
-
 export function HomeHeader({navigation}) {
     const { user } = useAuthentication();
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
+
+    const redirectScreen = (name) => {
+        navigation.navigate('Loading Screen', { nextScreen: name })
+    }
 
     const renderLabel = () => {
         if (value || isFocus) {
@@ -56,7 +56,6 @@ export function HomeHeader({navigation}) {
                     style={[styles.dropdown, isFocus && { borderColor: '#F1F4F7' }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
-                    inputSearchStyle={styles.inputSearchStyle}
                     iconStyle={styles.iconStyle}
                     data={data}
                     // search
@@ -96,6 +95,7 @@ export function HomeHeader({navigation}) {
                     type="outline"
                     buttonStyle={styles.button}
                     // containerStyle={{ height: 40, width: 40 }}
+                    onPress={() => redirectScreen('Map')}
                     icon={
                         <Icon
                             name="map"
@@ -107,7 +107,7 @@ export function HomeHeader({navigation}) {
                 <Button
                     type="outline"
                     buttonStyle={styles.button}
-                    onPress={() => navigation.navigate('Settings')}
+                    onPress={() => redirectScreen('Settings')}
                     icon={
                         <Icon
                             name="cog"
@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: 'white',
         left: 16,
-        // top: ,
         zIndex: 999,
         // paddingHorizontal: 8,
         fontSize: 12,
@@ -159,12 +158,14 @@ const styles = StyleSheet.create({
     placeholderStyle: {
         fontFamily: 'Inter-SemiBold',
         fontSize: 16,
-        color: '#004359'
+        color: '#004359',
+        marginLeft: 10
     },
     selectedTextStyle: {
         fontFamily: 'Inter-SemiBold',
         fontSize: 16,
-        color: '#004359'
+        color: '#004359',
+        marginLeft: 10
     },
     iconStyle: {
         width: 40,
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
         height: 40,
         fontFamily: 'Inter-SemiBold',
         fontSize: 16,
-        color: '#004359'
+        color: '#004359',
+        // top: -20
     },
     button: {
         borderWidth: 1,
@@ -185,7 +187,7 @@ const styles = StyleSheet.create({
         marginLeft: 8
     },
     item: {
-        padding: 17,
+        padding: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

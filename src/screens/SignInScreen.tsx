@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import BG from '../../assets/auth-background.svg'
+import { SuccessModal, FailedModal } from '@components'
 
 const auth = getAuth();
 
@@ -13,6 +14,8 @@ const SignInScreen = ({ navigation }) => {
         password: '',
         error: ''
     })
+
+    const [visible, setVisible] = React.useState(false);
 
     async function signIn() {
         if (value.email === '' || value.password === '') {
@@ -31,7 +34,16 @@ const SignInScreen = ({ navigation }) => {
                 error: error.message,
             })
         }
+        // toggleOverlay();
     }
+
+    function redirectToLoadingScreen() {
+        // navigation.navigate('Loading Screen')
+    }
+
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
 
     return (
         <View style={styles.container}>
@@ -81,6 +93,7 @@ const SignInScreen = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             </View>
+            <FailedModal visible={visible} toggleOverlay={toggleOverlay} onSubmit={redirectToLoadingScreen()} />
         </View>
     );
 }
