@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { PlaceList, HomeChip } from '@components';
+import { PlaceList, HomeChip, ComingSoonModal } from '@components';
 import { db } from '../config/firebase'
 import { collection, getDocs } from "firebase/firestore";
 import { Dropdown } from 'react-native-element-dropdown';
@@ -12,8 +12,14 @@ const Map = ({ navigation }) => {
     const [cafes, setCafes] = useState([]);
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
+    const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const selectable = ['Ambience', 'Value of Money', 'Service', 'Taste']
+
+    const toggleOverlay = () => {
+        setVisible(!visible);
+    };
+
     const data = [
         { label: 'Dago', value: 'dago' },
         { label: 'Riau', value: 'riau' },
@@ -86,6 +92,21 @@ const Map = ({ navigation }) => {
                     }
                 </MapView>
             </View>
+            <View style={{ position: 'absolute', left: 16, top: 36 }}>
+                <Button
+                    type="outline"
+                    buttonStyle={styles.button}
+                    // containerStyle={{ height: 40, width: 40 }}
+                    onPress={() => navigation.navigate('Home')}
+                    icon={
+                        <Icon
+                            name="arrow-left"
+                            size={14}
+                            color="#004359"
+                        />
+                    }
+                />
+            </View>
             <View style={styles.headerContainer}>
                 <View style={styles.containerDropdown}>
                     {renderLabel()}
@@ -126,26 +147,29 @@ const Map = ({ navigation }) => {
                     // containerStyle={{ paddingHorizontal: 20 }}
                     />
                 </View>
-                <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} isWhiteBG />
             </View>
-            <View style={{ position: 'absolute' }}>
+            <View style={{ position: 'absolute', right: 16, top: 36 }}>
                 <Button
                     type="outline"
                     buttonStyle={styles.button}
                     // containerStyle={{ height: 40, width: 40 }}
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={() => toggleOverlay()}
                     icon={
                         <Icon
-                            name="arrow-left"
-                            size={14}
+                            name="vr-cardboard"
+                            size={16}
                             color="#004359"
                         />
                     }
                 />
             </View>
+            <View style={{ position: 'absolute', top: 85}}>
+                <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} isWhiteBG />
+            </View>
             <View style={{ position: 'absolute', bottom: 40 }}>
                 <PlaceList places={cafes} navigation={navigation} />
             </View>
+            <ComingSoonModal visible={visible} toggleOverlay={toggleOverlay} />
         </SafeAreaView>
     )
 }
@@ -182,8 +206,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 40,
         width: 40,
-        marginLeft: 16,
-        marginTop: 36
+        // marginLeft: 16,
+        // marginTop: 36
+        // flex: 1,
+        // left: 16,
+        // top: 36
     },
 
     containerDropdown: {
