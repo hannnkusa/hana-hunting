@@ -78,15 +78,16 @@ const Map = ({ navigation }) => {
                 <MapView
                     style={{ flex: 1, borderRadius: 18 }}
                     initialRegion={{
-                        latitude: -6.91924168059367,
+                        latitude: -6.89024168059367,
                         longitude: 107.61933912435552,
-                        latitudeDelta: 0.05,
-                        longitudeDelta: 0.05,
+                        latitudeDelta: 0.1,
+                        longitudeDelta: 0.1,
                     }}
                 >
-                    {cafes.map((cafe) => (
+                    {cafes.map((cafe, idx) => (
                         <Marker
                             coordinate={{ latitude: cafe?.geolocation?.latitude, longitude: cafe?.geolocation?.longitude }}
+                            key={idx}
                         />
                     ))
                     }

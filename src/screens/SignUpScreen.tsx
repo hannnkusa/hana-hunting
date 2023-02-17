@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import BG from '../../assets/auth-background.svg'
 import { SuccessModal, FailedModal } from '@components'
 
@@ -27,15 +27,20 @@ const SignUpScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
             return;
         }
 
-        try {
-            const data = await createUserWithEmailAndPassword(auth, value.email, value.password);
-            if (data) toggleOverlay();
-        } catch (error) {
-            setValue({
-                ...value,
-                error: error.message,
+            await createUserWithEmailAndPassword(auth, value.email, value.password)
+            .then(async (res) => {
+                await updateProfile(user, {
+                    displayName: value.name,
+                    photoURL: ''
+                })
+                toggleOverlay();
             })
-        }
+            .catch(err => {
+                setValue({
+                    ...value,
+                    error: err.message,
+                })
+            })
     }
 
     function redirectToLoadingScreen() {

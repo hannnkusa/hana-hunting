@@ -13,6 +13,7 @@ export default function SettingsScreen({ navigation }) {
             <View style={styles.section}>
                 <Text style={styles.title}>Personal Info</Text>
                 <CustomButton title='Profile' iconLeftName='user-alt' onPress={() => navigation.navigate('Profile')} />
+                <CustomButton title='Change Password' iconLeftName='lock' onPress={() => navigation.navigate('Change Password')} />
             </View>
             <View style={styles.section}>
                 <Text style={styles.title}>App Info</Text>
@@ -33,7 +34,7 @@ export default function SettingsScreen({ navigation }) {
                 <CustomButton title='Privacy Policy' iconLeftName='user-shield' />
                 <CustomButton title='Help Center' iconLeftName='headset' />
             </View>
-            <View style={{...styles.section, marginTop: 227}}>
+            <View style={{...styles.section, marginTop: 150}}>
                 <CustomButton title='Sign Out' iconLeftName='sign-out-alt' onPress={() => signOut(auth)} />
             </View>
         </View>

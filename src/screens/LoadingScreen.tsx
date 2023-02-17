@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Lottie from 'lottie-react-native';
+import { Replace } from "@utils/navigation";
 
 function LoadingScreen({ route, navigation }) {
     const nextScreen = route?.params?.nextScreen
@@ -8,8 +9,8 @@ function LoadingScreen({ route, navigation }) {
     useEffect(() => {
         if (!!nextScreen) {
             setTimeout(() => {
-                navigation.navigate(nextScreen)
-            }, 1500)
+                Replace(nextScreen)
+            }, 500)
         }
     })
 

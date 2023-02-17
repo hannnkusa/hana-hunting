@@ -2,31 +2,25 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
-import { updateEmail, updatePassword, updateProfile } from 'firebase/auth';
+import { getAuth, updatePassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { useAuthentication } from '../utils/hooks/useAuthentication';
 import BG from '../../assets/auth-background.svg'
 import { SuccessUpdatedModal } from '../components';
 
-// const auth = getAuth();
+const auth = getAuth();
 
-const ProfileScreen = ({ navigation }) => {
+const ChangePasswordScreen = ({ navigation }) => {
     const { user, isLoading } = useAuthentication();
     const [visible, setVisible] = React.useState(false);
     const [value, setValue] = React.useState({
-        name: '',
         email: '',
-        password: '',
+        oldPassword: '',
+        newPassword: '',
         error: ''
     })
 
     useEffect(() => {
-        if (user) {
-            setValue({
-                email: user.email,
-                name: user.displayName,
-                password: ''
-            })
-        }
+        if (user) resetState()
     }, [user])
 
     const toggleOverlay = () => {
@@ -34,37 +28,27 @@ const ProfileScreen = ({ navigation }) => {
     };
 
     async function updateUser() {
-        try {
-            await updateProfile(user, {
-                displayName: value.name,
-                photoURL: ''
+        await signInWithEmailAndPassword(auth, value.email, value.oldPassword)
+            .then(async () => {
+                await updatePassword(user, value.newPassword)
+                toggleOverlay()
             })
-            console.log('here 1')
-            try {
-                await updateEmail(user, value.email)
-                console.log('here 2')
-                try {
-                    if (!!value.password) await updatePassword(user, value.password)
-                    toggleOverlay()
-                    console.log('success')
-                } catch (error) {
-                    setValue({
-                        ...value,
-                        error: error.message,
-                    })
-                }
-            } catch (error) {
+            .catch(err => {
                 setValue({
                     ...value,
-                    error: error.message,
+                    error: err.message,
                 })
-            }
-        } catch (error) {
-            setValue({
-                ...value,
-                error: error.message,
             })
-        }
+    }
+
+    function resetState () {
+        setValue({
+            email: user.email,
+            oldPassword: '',
+            newPassword: '',
+            error: ''
+        })
+        setVisible(false)
     }
 
     return (
@@ -72,41 +56,43 @@ const ProfileScreen = ({ navigation }) => {
             <View style={styles.controls}>
                 {!!value.error && <View style={styles.error}><Text>{value.error}</Text></View>}
                 <View>
-                    <Text style={styles.label}>Name</Text>
+                    <Text style={styles.label}>Old Password</Text>
                     <Input
-                        placeholder='Name'
+                        placeholder='Old Password'
                         containerStyle={styles.control}
-                        value={value.name}
-                        onChangeText={(text) => setValue({ ...value, name: text })}
+                        value={value.oldPassword}
+                        onChangeText={(text) => setValue({ ...value, oldPassword: text })}
                         leftIcon={<Icon
-                            name='user'
+                            name='lock'
                             size={22}
                             color="#6E929D"
                         />}
+                        secureTextEntry={true}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         leftIconContainerStyle={{ marginLeft: 20, marginRight: 12 }}
                     />
                 </View>
 
                 <View>
-                    <Text style={styles.label}>Email</Text>
+                    <Text style={styles.label}>New Password</Text>
                     <Input
-                        placeholder='Email'
+                        placeholder='New Password'
                         containerStyle={styles.control}
-                        value={value.email}
-                        onChangeText={(text) => setValue({ ...value, email: text })}
+                        value={value.newPassword}
+                        onChangeText={(text) => setValue({ ...value, newPassword: text })}
                         leftIcon={<Icon
-                            name='envelope'
-                            size={18}
+                            name='lock'
+                            size={22}
                             color="#6E929D"
                         />}
+                        secureTextEntry={true}
                         inputContainerStyle={{ borderBottomWidth: 0 }}
                         leftIconContainerStyle={{ marginLeft: 20, marginRight: 12 }}
                     />
                 </View>
                 <Button title="Save" buttonStyle={styles.button} onPress={() => updateUser()} containerStyle={{}} />
             </View>
-            <SuccessUpdatedModal visible={visible} toggleOverlay={toggleOverlay} onSubmit={toggleOverlay} />
+            <SuccessUpdatedModal visible={visible} toggleOverlay={toggleOverlay} onSubmit={resetState} />
         </View>
     );
 }
@@ -179,4 +165,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileScreen;
+export default ChangePasswordScreen;

@@ -25,7 +25,6 @@ export default function CafeDetailScreen({ route, navigation }) {
         const docRef = doc(db, "cafes", itemId);
         const querySnapshot = await getDoc(docRef);
         setCafe(querySnapshot.data());
-        console.log('isinya?', querySnapshot.data())
         setLoading(false)
     }
 
