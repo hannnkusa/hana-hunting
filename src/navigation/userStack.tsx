@@ -3,18 +3,18 @@ import { Button } from 'react-native-elements'
 import { StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
-import { navigationRef } from "@navigation";
+import { createNavigationContainerRef, NavigationContainer, StackActions } from '@react-navigation/native';
 
-import HomeScreen from '@screens/Home';
-import SettingsScreen from '@screens/SettingsScreen';
-import ProfileScreen from '@screens/ProfileScreen';
-import ChangePasswordScreen from '@screens/ChangePasswordScreen';
-import CafeDetailScreen from '@screens/CafeDetailScreen';
-import MapScreen from '@screens/MapScreen';
-import LoadingScreen from '@screens/LoadingScreen';
+import HomeScreen from '../screens/Home';
+import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import CafeDetailScreen from '../screens/CafeDetailScreen';
+import MapScreen from '../screens/MapScreen';
+import LoadingScreen from '../screens/LoadingScreen';
 
 const Stack = createStackNavigator();
+const navigationRef = createNavigationContainerRef()
 
 export default function UserStack() {
     return (

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Lottie from 'lottie-react-native';
-import { Replace } from "@utils/navigation";
+import { StackActions } from "@react-navigation/native";
+// import { navigationRef } from '../navigation/userStack';
 
 function LoadingScreen({ route, navigation }) {
     const nextScreen = route?.params?.nextScreen
@@ -9,14 +10,19 @@ function LoadingScreen({ route, navigation }) {
     useEffect(() => {
         if (!!nextScreen) {
             setTimeout(() => {
-                Replace(nextScreen)
+                // if (navigationRef.isReady()) {
+                //     navigationRef.dispatch(
+                //         StackActions.replace(nextScreen)
+                //     )
+                // }
+                navigation.replace(nextScreen)
             }, 500)
         }
     })
 
     return (
         <View style={[styles.container, styles.horizontal]}>
-            <Lottie source={require('@assets/animation/9844-loading-40-paperplane.json')} autoPlay loop />
+            <Lottie source={require('../../assets/animation/9844-loading-40-paperplane.json')} autoPlay loop />
             <Text style={styles.title}>Loading.{nextScreen === 'Map' ? ' Opening Google Maps.' : ''}..</Text>
         </View>
     )

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
-import { HomeHeader, HomeList, HomeChip } from '@components/index'
+import { HomeHeader, HomeList, HomeChip } from '../components/index'
 import { db } from '../config/firebase'
 import { collection, getDocs } from "firebase/firestore";
 

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Button } from 'react-native-elements';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import BG from '../../assets/auth-background.svg'
-import { SuccessModal, FailedModal } from '@components'
+import { SuccessModal, FailedModal } from '../components'
 
 const auth = getAuth();
 

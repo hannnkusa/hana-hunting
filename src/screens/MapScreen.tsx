@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import { Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { PlaceList, HomeChip, ComingSoonModal } from '@components';
+import { PlaceList, HomeChip, ComingSoonModal } from '../components';
 import { db } from '../config/firebase'
 import { collection, getDocs } from "firebase/firestore";
 import { Dropdown } from 'react-native-element-dropdown';

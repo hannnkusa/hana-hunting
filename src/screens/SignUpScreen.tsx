@@ -5,7 +5,7 @@ import { Input, Button } from 'react-native-elements';
 import { StackScreenProps } from '@react-navigation/stack';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import BG from '../../assets/auth-background.svg'
-import { SuccessModal, FailedModal } from '@components'
+import { SuccessModal, FailedModal } from '../components'
 
 const auth = getAuth();
 

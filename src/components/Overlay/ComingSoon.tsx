@@ -8,7 +8,7 @@ export function ComingSoonModal({ visible, toggleOverlay }) {
         <View>
             <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle={{ borderRadius: 16, padding: 24 }}>
                 {/* <WelcomeImg style={{ alignSelf: 'center' }} /> */}
-                <Image source={require('@assets/404.png')} style={{ height: 152.55, width: 192.95, alignSelf: 'center' }} />
+                <Image source={require('../../../assets/404.png')} style={{ height: 152.55, width: 192.95, alignSelf: 'center' }} />
                 <Text style={{ marginTop: 30, marginBottom: 16, color: '#004359', fontFamily: 'Inter-Bold', fontSize: 19, textAlign: 'center' }}>Coming Soon!</Text>
                 <Text style={{ marginBottom: 32, color: '#004359', fontFamily: 'Inter-Regular', fontSize: 16, textAlign: 'center' }}>We are currently undergoing maintenance and should be back up soon</Text>
                 <Button title='Okay' buttonStyle={styles.button} titleStyle={{ textAlign: 'center' }} onPress={() => toggleOverlay()} />

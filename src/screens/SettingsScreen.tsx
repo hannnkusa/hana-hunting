@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { CustomButton } from '@components';
+import { CustomButton } from '../components';
 import { getAuth, signOut } from 'firebase/auth';
 
 const auth = getAuth();
