@@ -6,11 +6,11 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const data = [
-    { label: 'Dago', value: 'dago' },
-    { label: 'Riau', value: 'riau' },
+    { label: 'Riau', value: '1' },
+    { label: 'Dago', value: '2' },
 ];
 
-export function HomeHeader({navigation}) {
+export function HomeHeader({navigation, location, setLocation}) {
     const { user } = useAuthentication();
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
@@ -20,7 +20,7 @@ export function HomeHeader({navigation}) {
     }
 
     const renderLabel = () => {
-        if (value || isFocus) {
+        if (location || isFocus) {
             return (
                 <Text style={[styles.label, isFocus && { color: '#004359' }]}>
                     Location
@@ -35,7 +35,7 @@ export function HomeHeader({navigation}) {
             return (
                 <View style={styles.item}>
                     <Text style={styles.textItem}>{item.label}</Text>
-                    {item.value === value && (
+                    {item.value === location && (
                         <Icon
                             style={styles.icon}
                             color='#004359'
@@ -64,11 +64,11 @@ export function HomeHeader({navigation}) {
                     valueField="value"
                     placeholder={!isFocus ? 'Location' : '...'}
                     searchPlaceholder="Search..."
-                    value={value}
+                    value={location}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     onChange={item => {
-                        setValue(item.value);
+                        setLocation(item.value);
                         setIsFocus(false);
                     }}
                     renderLeftIcon={() => (

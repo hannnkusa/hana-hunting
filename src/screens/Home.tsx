@@ -10,6 +10,7 @@ export default function HomeScreen({ navigation }) {
     const [cafesFiltered, setCafesFiltered] = useState([])
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [location, setLocation] = useState('');
     const selectable = ['Ambience', 'Value of Money', 'Service', 'Taste']
 
     async function loadData() {
@@ -41,15 +42,25 @@ export default function HomeScreen({ navigation }) {
         setIsLoading(false)
     }, [selectedIndex])
 
+    useEffect(() => {
+        console.log({ location })
+        
+        if (!!location) {
+            const filterCafes = cafes.filter(el => el.id_lokasi === location)
+            console.log({ filterCafes })
+            setCafesFiltered(filterCafes)
+        }
+    }, [location])
+
     return (
         <View style={styles.container}>
-            <HomeHeader navigation={navigation} />
+            <HomeHeader navigation={navigation} location={location} setLocation={setLocation}/>
             <View style={{ marginTop: 24, marginBottom: 40 }}>
                 <Text style={[styles.title, { color: '#6E929D' }]}>Explore</Text>
                 <Text style={[styles.title, { color: '#004359' }]}>New Places!</Text>
             </View>
             <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} />
-            <HomeList data={!!selectedIndex ? cafesFiltered : cafes} navigation={navigation} isLoading={isLoading} />
+            <HomeList data={!!selectedIndex || !!location ? cafesFiltered : cafes} navigation={navigation} isLoading={isLoading} />
         </View>
     );
 }

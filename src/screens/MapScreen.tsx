@@ -7,6 +7,7 @@ import { PlaceList, HomeChip, ComingSoonModal } from '../components';
 import { db } from '../config/firebase'
 import { collection, getDocs } from "firebase/firestore";
 import { Dropdown } from 'react-native-element-dropdown';
+import CameraImg from '../../assets/cam.svg'
 
 const Map = ({ navigation }) => {
     const [cafes, setCafes] = useState([]);
@@ -15,14 +16,20 @@ const Map = ({ navigation }) => {
     const [visible, setVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const selectable = ['Ambience', 'Value of Money', 'Service', 'Taste']
+    const [region, setRegion] = useState({
+        latitude: -6.89024168059367,
+        longitude: 107.61933912435552,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+    })
 
     const toggleOverlay = () => {
         setVisible(!visible);
     };
 
     const data = [
-        { label: 'Dago', value: 'dago' },
-        { label: 'Riau', value: 'riau' },
+        { label: 'Riau', value: '1' },
+        { label: 'Dago', value: '2' },
     ];
 
     const renderLabel = () => {
@@ -35,6 +42,29 @@ const Map = ({ navigation }) => {
         }
         return null;
     };
+
+    // useEffect(() => {
+    //     setCafesFiltered(cafes.filter(el => el.id_lokasi === location))
+    // }, [value])
+
+    useEffect(() => {
+        if (value === '1') {
+            setRegion({
+                latitude: -6.9061048,
+                longitude: 107.6186769,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+            })
+        }
+        if (value === '2') {
+            setRegion({
+                latitude: -6.880422977506594,
+                longitude: 107.62120379135013,
+                latitudeDelta: 0.065,
+                longitudeDelta: 0.035,
+            })
+        }
+    }, [value])
 
     const renderItem = (item: any) => {
         if (item) {
@@ -72,6 +102,10 @@ const Map = ({ navigation }) => {
         loadData()
     }, []);
 
+    function readRegion(val, val2) {
+        console.log({ val, val2 })
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.mapView}>
@@ -83,6 +117,8 @@ const Map = ({ navigation }) => {
                         latitudeDelta: 0.1,
                         longitudeDelta: 0.1,
                     }}
+                    region={region}
+                    onRegionChange={readRegion}
                 >
                     {cafes.map((cafe, idx) => (
                         <Marker
@@ -155,16 +191,10 @@ const Map = ({ navigation }) => {
                     buttonStyle={styles.button}
                     // containerStyle={{ height: 40, width: 40 }}
                     onPress={() => toggleOverlay()}
-                    icon={
-                        <Icon
-                            name="vr-cardboard"
-                            size={16}
-                            color="#004359"
-                        />
-                    }
+                    icon={<CameraImg />}
                 />
             </View>
-            <View style={{ position: 'absolute', top: 85}}>
+            <View style={{ position: 'absolute', top: 85 }}>
                 <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} isWhiteBG />
             </View>
             <View style={{ position: 'absolute', bottom: 40 }}>
