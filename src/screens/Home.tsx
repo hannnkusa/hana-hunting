@@ -43,11 +43,8 @@ export default function HomeScreen({ navigation }) {
     }, [selectedIndex])
 
     useEffect(() => {
-        console.log({ location })
-        
         if (!!location) {
             const filterCafes = cafes.filter(el => el.id_lokasi === location)
-            console.log({ filterCafes })
             setCafesFiltered(filterCafes)
         }
     }, [location])

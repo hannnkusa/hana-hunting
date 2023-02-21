@@ -102,10 +102,6 @@ const Map = ({ navigation }) => {
         loadData()
     }, []);
 
-    function readRegion(val, val2) {
-        console.log({ val, val2 })
-    }
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.mapView}>
@@ -118,7 +114,6 @@ const Map = ({ navigation }) => {
                         longitudeDelta: 0.1,
                     }}
                     region={region}
-                    onRegionChange={readRegion}
                 >
                     {cafes.map((cafe, idx) => (
                         <Marker
