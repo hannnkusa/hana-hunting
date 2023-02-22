@@ -24,6 +24,7 @@ export default function HomeScreen({ navigation }) {
                 id: doc.id
             });
         });
+        console.log(cafes.map(el => ({ name: el.nama_cafe, ambience: el.ambience, service: el.service, taste: el.taste, value: el.value })))
         setCafes(cafes);
         setIsLoading(false)
     }
@@ -38,8 +39,10 @@ export default function HomeScreen({ navigation }) {
             const selector = selectedIndex === 1 ? 'value' : selectable[selectedIndex].toLowerCase()
             return a[selector] - b[selector]
         })
-        setCafesFiltered(newCafes)
-        setIsLoading(false)
+        setTimeout(() => {
+            setCafesFiltered(newCafes)
+            setIsLoading(false)
+        }, 200)
     }, [selectedIndex])
 
     useEffect(() => {

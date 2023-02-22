@@ -12,6 +12,7 @@ import CameraImg from '../../assets/cam.svg'
 const Map = ({ navigation }) => {
     const [cafes, setCafes] = useState([]);
     const [filteredCafes, setFilteredCafes] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -105,6 +106,18 @@ const Map = ({ navigation }) => {
         setCafes(cafes);
         // setIsLoading(false)
     }
+
+    useEffect(() => {
+        setIsLoading(true)
+        const newCafes = cafes.sort((a, b) => {
+            const selector = selectedIndex === 1 ? 'value' : selectable[selectedIndex].toLowerCase()
+            return a[selector] - b[selector]
+        })
+        setTimeout(() => {
+            setFilteredCafes(newCafes)
+            setIsLoading(false)
+        }, 200)
+    }, [selectedIndex])
 
     useEffect(() => {
         loadData()
