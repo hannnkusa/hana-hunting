@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { HomeHeader, HomeList, HomeChip } from '../components/index'
 import { db } from '../config/firebase'
@@ -65,6 +65,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
+        paddingBottom: 0,
         backgroundColor: 'white',
         height: '100%',
         width: '100%',

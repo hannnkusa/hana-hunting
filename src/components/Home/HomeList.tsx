@@ -13,16 +13,19 @@ function Card({ item, navigation, id }) {
                 alignSelf: 'flex-start',
                 // marginHorizontal: '1%',
                 minWidth: '48%',
-                width: 154,
+                width: 'auto',
                 height: 200,
-                marginBottom: 16
+                marginBottom: 16,
+                justifyContent: 'center',
+                // backgroundColor: 'red',
+                alignItems: 'center'
                 // marginTop: 12
             }}
             onPress={() => navigation.navigate('Cafe Detail', { itemId: id })}
         >
             {/* <Text>{item.thumbnail}</Text> */}
             <ImageBackground source={{ uri: item.thumbnail }} resizeMode="cover" imageStyle={styles.imageStyle} style={styles.image}>
-                <View style={{ backgroundColor: 'rgba(0,0,0, 0.30)', width: 154, height: 200, borderRadius: 16, left: -4, paddingHorizontal: 9 }}>
+                <View style={{ backgroundColor: 'rgba(0,0,0, 0.30)', width: 160, height: 200, borderRadius: 16, paddingHorizontal: 9, justifyContent: 'center' }}>
                     <View style={{ top: 40, height: '100%' }}>
                         <Text style={{ fontSize: 10, fontFamily: 'Inter-Regular', color: '#FFFFFF' }}>Kota Bandung</Text>
                         <Text style={{ maxHeight: 48, fontSize: 18, fontFamily: 'Inter-SemiBold', color: '#FFFFFF' }}>{item.nama_cafe}</Text>
@@ -86,13 +89,14 @@ const styles = StyleSheet.create({
     imageStyle: {
         borderRadius: 16,
         height: 200,
-        width: 154,
+        width: 160,
+        justifyContent: 'center'
     },
     image: {
         justifyContent: 'center',
         borderRadius: 16,
-        width: 154,
-        paddingHorizontal: 4,
+        width: 160,
+        // paddingHorizontal: 4,
         height: 200,
     },
     text: {

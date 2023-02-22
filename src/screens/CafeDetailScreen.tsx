@@ -201,7 +201,7 @@ export default function CafeDetailScreen({ route, navigation }) {
                     <View style={{ position: 'absolute', width: '100%' }}>
                         <LinearGradient
                             // Background Linear Gradient
-                            colors={['rgba(33, 37, 41, 0.3)', '#212529']}
+                            colors={['rgba(33, 37, 41, 0.1)', '#212529']}
                             locations={[0.6, 1]}
                             style={{
                                 width: '100%',

@@ -11,6 +11,7 @@ import CameraImg from '../../assets/cam.svg'
 
 const Map = ({ navigation }) => {
     const [cafes, setCafes] = useState([]);
+    const [filteredCafes, setFilteredCafes] = useState([]);
     const [value, setValue] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -64,7 +65,14 @@ const Map = ({ navigation }) => {
                 longitudeDelta: 0.035,
             })
         }
+
+        filterCafes()
     }, [value])
+
+    function filterCafes () {
+        const newData = cafes.filter(el => el.id_lokasi === value)
+        setFilteredCafes(newData)
+    }
 
     const renderItem = (item: any) => {
         if (item) {
@@ -193,7 +201,7 @@ const Map = ({ navigation }) => {
                 <HomeChip selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} selectable={selectable} isWhiteBG />
             </View>
             <View style={{ position: 'absolute', bottom: 40 }}>
-                <PlaceList places={cafes} navigation={navigation} />
+                <PlaceList places={!!value ? filteredCafes : cafes} navigation={navigation} />
             </View>
             <ComingSoonModal visible={visible} toggleOverlay={toggleOverlay} />
         </SafeAreaView>
