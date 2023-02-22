@@ -110,18 +110,23 @@ const Map = ({ navigation }) => {
         loadData()
     }, []);
 
+    // function regionChange (val1, val2) {
+    //     console.log({ val1, val2 })
+    // }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.mapView}>
                 <MapView
                     style={{ flex: 1, borderRadius: 18 }}
                     initialRegion={{
-                        latitude: -6.89024168059367,
-                        longitude: 107.61933912435552,
-                        latitudeDelta: 0.1,
-                        longitudeDelta: 0.1,
+                        latitude: -6.878865617138947,
+                        longitude: 107.62174358591437,
+                        latitudeDelta: 0.05169856399935835,
+                        longitudeDelta: 0.02618204802274704,
                     }}
                     region={region}
+                    // onRegionChange={regionChange}
                 >
                     {cafes.map((cafe, idx) => (
                         <Marker
